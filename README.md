@@ -1,4 +1,7 @@
 ## Structured Information on State and Evolution of Dockerfiles - Online Appendix
+TODO: brief intro
+
+### TODO: Link to link to database dump
 
 ### ERD - Entity Relationship Diagram
 ![ERD](https://github.com/juice457/DFA/blob/master/erd.png)
@@ -256,39 +259,4 @@ GROUP BY destination
 ORDER BY c DESC
 ```
 
-
-
-
-```
-### Support or Contact
-Feel free to open a issue ticket if you have any troubles and questions corresponding this project.
-
-
-
-
-
-
-
-
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
-
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+### TODO: How to run DFA
