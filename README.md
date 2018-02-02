@@ -5,7 +5,7 @@ You can use the [editor on GitHub](https://github.com/juice457/DFA/edit/master/R
 Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
 
 ### ERD
-
+![ERD](https://github.com/juice457/DFA/blob/master/erd.png)
 ### Query Examples
 ```SQL
 ########################################################################################################################################################
