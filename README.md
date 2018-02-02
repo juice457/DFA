@@ -33,21 +33,20 @@ one Snapshot to a newer one. A _Diff_ contains one or more _Diff_Types_.
 
 ##### DiffType
 DiffType show what type of change have been done on a Snapshot. It includes the old and new state as a string. 
-
-##### 
+ 
 ### Example Queries
 ```SQL
-########################################################################################################################################################
-##1. Dependecies
-########################################################################################################################################################
-##[1] Most used ports
+###################################################################################################################################
+##1. Dependencies
+###################################################################################################################################
+##[1] Most frequent used ports
 SELECT port, count(port)
 FROM df_expose 
 WHERE current = true
 GROUP BY port
 ORDER BY count DESC
 
-##[2] How many often do dependencies change
+##[2] How often do dependencies change
 SELECT *
 FROM diff_type NATURAL JOIN diff NATURAL JOIN snap_diff NATURAL JOIN snap_id
 WHERE change_type LIKE '%Updat%' AND instruction = 'RUN'
@@ -95,10 +94,10 @@ GROUP BY executable, run_params
 ORDER BY count(executable) DESC
 
 
-########################################################################################################################################################
+###################################################################################################################################
 ##2. Churn and Co-Evolution
-########################################################################################################################################################
-##[1] How many times do Dockerfiles change (average)
+###################################################################################################################################
+##[1] How often do Dockerfiles change (average)
 SELECT avg(count)
 FROM (
 SELECT dock_id, count(*)
@@ -209,15 +208,14 @@ from snapshot
 group by date_trunc( 'month', to_timestamp(commit_date) )
 ORDER BY s ASC
 
-########################################################################################################################################################
+###################################################################################################################################
 ## Others
-########################################################################################################################################################
+###################################################################################################################################
 ##[2] Which rules are violated according best practices?
 SELECT violated_rules, count(violated_rules) 
 FROM violated_rules 
 GROUP BY violated_rules 
 ORDER BY count DESC
-
 
 ##[3] Docker usage adoption rate according USERS/ORGANIZATIONS ?
 SELECT count(*), date_trunc('year', to_timestamp(first_docker_commit)) s, i_owner_type
