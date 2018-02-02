@@ -272,7 +272,7 @@ There are different possibilities how you can run the tool (You can find dfa_too
    * Arguments: No parameter
    * Example: `java -jar dfa_tool.jar` 
 2. Analyze a Github Project, which includes at least one Dockerfile
-   * Arguments: {Github project url} (i.e. https://github.com/raiden-network/raiden)
+   * Arguments: {Github project url} (i.g. https://github.com/raiden-network/raiden)
    * Example: `java -jar dfa_tool.jar https://github.com/raiden-network/raiden`
 2. Analyze a Github Project and save results into a postgres database
    * Arguments: {Github project url} -db
@@ -282,3 +282,6 @@ There are different possibilities how you can run the tool (You can find dfa_too
     * Arguments: {Github project url} -json
     * Hint: you find the json file in root folder of this project
     * Example: `java -jar dfa_tool.jar https://github.com/raiden-network/raiden -json`
+    
+### Build Instructions
+Build project with `mvn install`
