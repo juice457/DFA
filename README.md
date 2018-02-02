@@ -4,7 +4,7 @@ TODO: brief intro
 ### TODO: Link to link to database dump
 
 ### ERD - Entity Relationship Diagram
-![ERD](https://github.com/juice457/DFA/blob/master/erd.png)
+[[https://github.com/juice457/DFA/blob/master/erd.png|alt=ERD]]
 
 #### Tables
 ##### Project
