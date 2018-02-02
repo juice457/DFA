@@ -6,6 +6,28 @@ Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://j
 
 ### ERD
 ![ERD](https://github.com/juice457/DFA/blob/master/erd.png)
+
+#### Tables
+##### Project
+Each Git Repository is modelled as a Project and include meta-informations about the project (followers, forks etc.)
+
+##### Dockerfile
+A Project can include one or multiple Dockerfiles. A Dockerfile is a text document that contains all the commands a
+user could call on the command line to assemble an image.
+ 
+##### Snapshot
+A Snapshot represents a state of a Dockerfile for a certain time, i.e. if a dockerfile has ben changed 8 times, 
+then it will have 8 snapshots. Basically a Snapshot is a "Commit".
+
+##### Diff
+Each Snapshots has two Diffs. The first Diff connects the old Snapshot with the current one, 
+and the second one connects the current one with the new one. Basically a Diff is the "Transition" of 
+one Snapshot to a newer one. A Diff contains one or multiple DiffTypes.
+
+##### DiffType
+DiffType show what type of change have been done on a Snapshot. It includes the old and new state as a string. 
+
+##### 
 ### Query Examples
 ```SQL
 ########################################################################################################################################################
