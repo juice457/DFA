@@ -1,14 +1,22 @@
 ## Structured Information on State and Evolution of Dockerfiles - Online Appendix
 TODO: brief intro
 
-### TODO: Link to link to database dump
+### Table of Contents
+1. **[Database Dump](#database-dump)**<br>
+2. **[Entity Relationship Diagram](#entity-relationship-diagram)**<br>
+3. **[Tables](#tables)**<br>
+4. **[Example Queries](#example-queries)**<br>
+5. **[Run Instructions](#run-instructions)**<br>
 
-### ERD - Entity Relationship Diagram
+### Database Dump
+TODO: add link to database dump
+
+### Entity Relationship Diagram
 ![https://raw.githubusercontent.com/juice457/DFA/master/erd.png](https://raw.githubusercontent.com/juice457/DFA/master/erd.png)
 
 #### Tables
 ##### Project
-Each Git Repository is modelled as a _Project_ and include meta information about the project (number of followers, forks etc.)
+Each Git Repository is modelled as a _Project_ and includes meta information about the project (number of followers, forks etc.)
 
 ##### Dockerfile
 A _Project_ includes one or more _Dockerfiles_. A _Dockerfile_ is a text document that contains all the commands a
@@ -27,7 +35,7 @@ one Snapshot to a newer one. A _Diff_ contains one or more _Diff_Types_.
 DiffType show what type of change have been done on a Snapshot. It includes the old and new state as a string. 
 
 ##### 
-### Query Examples
+### Example Queries
 ```SQL
 ########################################################################################################################################################
 ##1. Dependecies
@@ -259,4 +267,5 @@ GROUP BY destination
 ORDER BY c DESC
 ```
 
-### TODO: How to run DFA
+### Run Instructions
+TODO: How to run DFA
