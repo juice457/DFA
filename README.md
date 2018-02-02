@@ -266,4 +266,19 @@ ORDER BY c DESC
 ```
 
 ### Run Instructions
-TODO: How to run DFA
+There are different possibilities how you can run the tool (You can find dfa_tool.jar under /tool folder):
+
+1. Demo purpose, where a default github project gets analyzed
+   * Arguments: No parameter
+   * Example: `java -jar dfa_tool.jar` 
+2. Analyze a Github Project, which includes at least one Dockerfile
+   * Arguments: {Github project url} (i.e. https://github.com/raiden-network/raiden)
+   * Example: `java -jar dfa_tool.jar https://github.com/raiden-network/raiden`
+2. Analyze a Github Project and save results into a postgres database
+   * Arguments: {Github project url} -db
+   * Requirements: Setup a local postgres db under port `5432` with username `postgres` and pw `postgres` and a empty database with name `dfa`
+   * Example: `java -jar dfa_tool.jar https://github.com/raiden-network/raiden -db`
+2. Analyze a Github Project and save results into a json file
+    * Arguments: {Github project url} -json
+    * Hint: you find the json file in root folder of this project
+    * Example: `java -jar dfa_tool.jar https://github.com/raiden-network/raiden -json`

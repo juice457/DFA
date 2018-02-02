@@ -61,7 +61,6 @@ public class App {
                 app.printJson = true;
             }
             app = new App(args[0]);
-
         }else if (args.length == 3) {
             System.out.println("Hello" + args[1] + " :D");
             app = new App(args[0], args[1], args[2]);
