@@ -1,28 +1,24 @@
-## Welcome to DFA
+## Structured Information on State and Evolution of Dockerfiles - Online Appendix
 
-You can use the [editor on GitHub](https://github.com/juice457/DFA/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
-
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
-
-### ERD
+### ERD - Entity Relationship Diagram
 ![ERD](https://github.com/juice457/DFA/blob/master/erd.png)
 
 #### Tables
 ##### Project
-Each Git Repository is modelled as a Project and include meta-informations about the project (followers, forks etc.)
+Each Git Repository is modelled as a _Project_ and include meta information about the project (number of followers, forks etc.)
 
 ##### Dockerfile
-A Project can include one or multiple Dockerfiles. A Dockerfile is a text document that contains all the commands a
-user could call on the command line to assemble an image.
+A _Project_ includes one or more _Dockerfiles_. A _Dockerfile_ is a text document that contains all the commands a
+user could execute on the command line to assemble an image.
  
 ##### Snapshot
-A Snapshot represents a state of a Dockerfile for a certain time, i.e. if a dockerfile has ben changed 8 times, 
-then it will have 8 snapshots. Basically a Snapshot is a "Commit".
+A _Snapshot_ represents a state of a Dockerfile at a certain time, i.e., if a Dockerfile has been changed 8 times, 
+then there will be 8 snapshots. Basically, a Snapshot can be seen as a "Commit".
 
 ##### Diff
-Each Snapshots has two Diffs. The first Diff connects the old Snapshot with the current one, 
-and the second one connects the current one with the new one. Basically a Diff is the "Transition" of 
-one Snapshot to a newer one. A Diff contains one or multiple DiffTypes.
+Each _Snapshot_ has two _Diffs_. The first _Diff_ connects the old Snapshot with the current one, 
+and the second one connects the current one with the new one. Basically, a Diff is the "Transition" of 
+one Snapshot to a newer one. A _Diff_ contains one or more _Diff_Types_.
 
 ##### DiffType
 DiffType show what type of change have been done on a Snapshot. It includes the old and new state as a string. 
@@ -40,7 +36,7 @@ WHERE current = true
 GROUP BY port
 ORDER BY count DESC
 
-##[2] How many times do dependencies change
+##[2] How many often do dependencies change
 SELECT *
 FROM diff_type NATURAL JOIN diff NATURAL JOIN snap_diff NATURAL JOIN snap_id
 WHERE change_type LIKE '%Updat%' AND instruction = 'RUN'
@@ -52,14 +48,14 @@ WHERE current = true
 GROUP BY imagename
 ORDER BY count DESC
 
-##[3.2] Which images version are preferred (NUMERIC) 
+##[3.2] Which image versions are preferred (NUMERIC) 
 SELECT imageversionnumber, count(imageversionnumber)
 FROM df_from 
 WHERE current = true
 GROUP BY imageversionnumber
 ORDER BY count DESC
 
-##[3.3] Which images version are preferred  (NOMINAL)
+##[3.3] Which image versions are preferred  (NOMINAL)
 SELECT imageversionstring, count(imageversionstring)
 FROM df_from 
 WHERE current = true
@@ -74,13 +70,13 @@ WHERE current = true
 GROUP BY imageversionnumber
 ORDER BY count DESC
 
-##[5] Which parameters are the most used in RUN Instructions ?
+##[5] Which parameters are most frequently used in RUN instructions?
 SELECT run_params, count(run_params)
 FROM run_params
 GROUP BY run_params
 ORDER BY count DESC
 
-##[5] Top RUN Instructions
+##[5] Top RUN instructions
 SELECT executable,count(executable), run_params
 FROM df_run df NATURAL JOIN run_params rp
 WHERE df.current=true
@@ -91,14 +87,14 @@ ORDER BY count(executable) DESC
 ########################################################################################################################################################
 ##2. Churn and Co-Evolution
 ########################################################################################################################################################
-##[1] How many times do Dockerfile change (average)
+##[1] How many times do Dockerfiles change (average)
 SELECT avg(count)
 FROM (
 SELECT dock_id, count(*)
 FROM dockerfile NATURAL JOIN snapshot 
 GROUP BY dock_id) s
 
-##[2] How many times do dockerfiles change with other files?
+##[2] How many times do Dockerfiles change with other files?
 SELECT avg(count)
 FROM(
 SELECT dock_id, count(dock_id)
@@ -121,7 +117,7 @@ ORDER BY count ASC) g NATURAL JOIN dockerfile
 WHERE g.count > 1
 GROUP BY dock_id) f
 
-##[2.1] Which changes are made when a dockerfile changes alone 
+##[2.1] Which changes are made when a Dockerfile changes alone 
 SELECT change_type, count(change_type)
 FROM(
 SELECT s.snap_id, s.dock_id, count(s.snap_id)
@@ -133,7 +129,7 @@ WHERE diff_state = 'COMMIT_COMMIT'
 GROUP BY change_type
 ORDER BY count DESC
 
-##[2.1] Which changes are made when a dockerfile changes with other files together
+##[2.1] Which changes are made when a Dockerfile changes together with other files
 SELECT change_type, count(change_type)
 FROM(
 SELECT s.snap_id, s.dock_id, count(s.snap_id)
@@ -145,7 +141,7 @@ WHERE diff_state = 'COMMIT_COMMIT'
 GROUP BY change_type
 ORDER BY count DESC
 
-##[3] Which files and file type are changed when a dockerfile is changed in a project?
+##[3] Which files and file types are changed when a Dockerfile is changed?
 SELECT full_file_name, count(full_file_name)
 FROM changed_files
 WHERE range_index = 0
@@ -158,7 +154,7 @@ WHERE range_index = 0
 GROUP BY file_type
 ORDER BY count DESC
 
-##[9] Which files are changed in a range_index?
+##[9] Which files are changed within a certain range_index?
 SELECT full_file_name
 FROM changed_files
 WHERE range_index = -1
@@ -175,7 +171,7 @@ SELECT full_file_name
 FROM changed_files
 WHERE range_index = 2
 
-##[10] How many files changes in average together with a dockerfile (index= 0)
+##[10] How many files change in average together with a Dockerfile (index= 0)
 SELECT avg(snap_id)
 FROM (
 SELECT snap_id, count(snap_id)
@@ -184,14 +180,14 @@ WHERE range_index = 0
 GROUP BY snap_id
 ORDER BY count(snap_id) DESC ) s
 
-##[11] List of most changed Instructions?
+##[11] List of most changed instructions
 SELECT instruction, count(instruction)
 FROM diff_type
 WHERE change_type LIKE '%Update%'
 GROUP BY instruction
 ORDER BY count(instruction) DESC
 
-##[12] How many COmmits per year and per month
+##[12] How many commits per year and per month
 SELECT count(*), date_trunc('year', to_timestamp(commit_date)) s
 from snapshot
 group by date_trunc( 'year', to_timestamp(commit_date) )
@@ -203,22 +199,22 @@ group by date_trunc( 'month', to_timestamp(commit_date) )
 ORDER BY s ASC
 
 ########################################################################################################################################################
-##Sonstige
+## Others
 ########################################################################################################################################################
-##[2] Which Rules are violated according best practices?
+##[2] Which rules are violated according best practices?
 SELECT violated_rules, count(violated_rules) 
 FROM violated_rules 
 GROUP BY violated_rules 
 ORDER BY count DESC
 
 
-##[3] Docker Usage Adoption rate according USERS/ORGANIZATIONS ?
+##[3] Docker usage adoption rate according USERS/ORGANIZATIONS ?
 SELECT count(*), date_trunc('year', to_timestamp(first_docker_commit)) s, i_owner_type
 FROM dockerfile
 group by date_trunc( 'year', to_timestamp(first_docker_commit)), i_owner_type
 ORDER BY s  ASC
 
-##[6] Most used words in Comments
+##[6] Most used words in comments
 SELECT word, count(*)
 FROM ( 
   SELECT regexp_split_to_table(comment, '\s') as word
@@ -227,17 +223,14 @@ FROM (
 GROUP BY word
 ORDER BY count DESC
 
-##[7] Which Instructions are commented a lot?
+##[7] Which instructions are commented more frequently?
 SELECT instruction, count(instruction)
 FROM df_comment NATURAL JOIN snapshot
 WHERE index = true AND instruction LIKE '%before%'
 GROUP by instruction
 ORDER BY count DESC
 
-##[7] Welche Instructions werden am meisten auskommentiert?
-
-
-##[8] Preferred Source and Destination of ADD and COPY
+##[8] Preferred source and destination of ADD and COPY instructions
 SELECT source, count(source) c
 FROM df_add
 WHERE current=true
@@ -261,7 +254,7 @@ FROM df_add
 WHERE current=true
 GROUP BY destination
 ORDER BY c DESC
-```SQL
+```
 
 
 
