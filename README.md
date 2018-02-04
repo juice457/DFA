@@ -1,5 +1,5 @@
 ## Structured Information on State and Evolution of Dockerfiles - Online Appendix
-TODO: brief intro
+This is the online appendix of our submission. It provides additional information to our dataset, how to build and run our toolchain to collect the data, and a link to our database dump.
 
 ### Table of Contents
 1. **[Database Dump](#database-dump)**<br>
@@ -7,6 +7,8 @@ TODO: brief intro
 3. **[Tables](#tables)**<br>
 4. **[Example Queries](#example-queries)**<br>
 5. **[Run Instructions](#run-instructions)**<br>
+6. **[Build Instructions](#build-instructions)**<br>
+
 
 ### Database Dump
 TODO: add link to database dump
@@ -15,6 +17,8 @@ TODO: add link to database dump
 ![https://raw.githubusercontent.com/juice457/DFA/master/erd.png](https://raw.githubusercontent.com/juice457/DFA/master/erd.png)
 
 #### Tables
+In the following you will find descriptions of tables, for a comprehensive overview we refer to the attached ERD and a SQL schema (file _schema.sql_).
+
 ##### Project
 Each Git Repository is modelled as a _Project_ and includes meta information about the project (number of followers, forks etc.)
 
@@ -266,19 +270,19 @@ ORDER BY c DESC
 ```
 
 ### Run Instructions
-There are different possibilities how you can run the tool (You can find dfa_tool.jar under /tool folder):
+There are different possibilities on how the toolchain can be executed. The tool _dfa_tool.jar_ can be found in the  _/tool_ folder):
 
-1. Demo purpose, where a default github project gets analyzed
+1. Demo purpose, a default GitHub project gets analyzed
    * Arguments: No parameter
    * Example: `java -jar dfa_tool.jar` 
-2. Analyze a Github Project, which includes at least one Dockerfile
+2. Analyze a specified GitHub project that includes at least one Dockerfile
    * Arguments: {Github project url} (i.g. https://github.com/raiden-network/raiden)
    * Example: `java -jar dfa_tool.jar https://github.com/raiden-network/raiden`
-2. Analyze a Github Project and save results into a postgres database
+2. Analyze a specified GitHub project and save results into a postgres database
    * Arguments: {Github project url} -db
-   * Requirements: Setup a local postgres db under port `5432` with username `postgres` and pw `postgres` and a empty database with name `dfa`
+   * Requirements: Setup a local postgres db with port `5432`, username `postgres`, password `postgres`, and an empty database with name `dfa`
    * Example: `java -jar dfa_tool.jar https://github.com/raiden-network/raiden -db`
-2. Analyze a Github Project and save results into a json file
+2. Analyze a specified GitHub project and save results into a json file
     * Arguments: {Github project url} -json
     * Hint: you find the json file in root folder of this project
     * Example: `java -jar dfa_tool.jar https://github.com/raiden-network/raiden -json`
