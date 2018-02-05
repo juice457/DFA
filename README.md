@@ -11,7 +11,8 @@ This is the online appendix of our submission. It provides additional informatio
 
 
 ### Database Dump
-TODO: add link to database dump
+A compressed database dump (~700 MB) is available [here](https://drive.google.com/file/d/1YFEDeizmInuwThrFjfixBc_owWV4Dlz5/view?usp=sharing). Use `gunzip -c msr18_dump.sql.gz | psql dbname` to decompress and import into a database named `dbname`. <br>
+**Note**: the database requires ~20 GB of storage.
 
 ### Entity Relationship Diagram
 ![https://raw.githubusercontent.com/juice457/DFA/master/erd.png](https://raw.githubusercontent.com/juice457/DFA/master/erd.png)
