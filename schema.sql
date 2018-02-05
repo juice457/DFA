@@ -36,18 +36,18 @@ SET default_with_oids = false;
 
 CREATE TABLE changed_files (
     changedfile_id bigint NOT NULL,
-    changetype character varying(255),
-    commit character varying(255),
+    changetype character varying(1024),
+    commit character varying(1024),
     deletions integer,
-    file_name character varying(255),
-    path character varying(255),
-    file_type character varying(255),
-    full_file_name character varying(255),
+    file_name character varying(1024),
+    path character varying(1024),
+    file_type character varying(1024),
+    full_file_name character varying(1024),
     insertions integer,
     mode integer,
     range_index integer,
     range_size integer,
-    reponame character varying(255),
+    reponame character varying(1024),
     snap_id bigint
 );
 
@@ -60,7 +60,7 @@ ALTER TABLE changed_files OWNER TO postgres;
 
 CREATE TABLE cmd_params (
     run_id bigint NOT NULL,
-    cmd_params character varying(255)
+    cmd_params character varying(1024)
 );
 
 
@@ -73,9 +73,9 @@ ALTER TABLE cmd_params OWNER TO postgres;
 CREATE TABLE df_add (
     add_id bigint NOT NULL,
     current boolean NOT NULL,
-    destination character varying(255),
-    source character varying(255),
-    source_destination character varying(255),
+    destination character varying(1024),
+    source character varying(1024),
+    source_destination character varying(1024),
     snap_id bigint
 );
 
@@ -102,7 +102,7 @@ ALTER TABLE df_arg OWNER TO postgres;
 
 CREATE TABLE df_cmd (
     snap_id bigint NOT NULL,
-    run_params character varying(255),
+    run_params character varying(1024),
     current boolean NOT NULL,
     executable character varying(255)
 );
@@ -116,8 +116,9 @@ ALTER TABLE df_cmd OWNER TO postgres;
 
 CREATE TABLE df_comment (
     comment_id bigint NOT NULL,
-    comment character varying(255) NOT NULL,
-    instruction character varying(255),
+    comment character varying(1024) NOT NULL,
+    current boolean NOT NULL,
+    instruction character varying(1024),
     snap_id bigint
 );
 
@@ -131,9 +132,9 @@ ALTER TABLE df_comment OWNER TO postgres;
 CREATE TABLE df_copy (
     copy_id bigint NOT NULL,
     current boolean NOT NULL,
-    destination character varying(255),
-    source character varying(255),
-    source_destination character varying(255),
+    destination character varying(1024),
+    source character varying(1024),
+    source_destination character varying(1024),
     snap_id bigint
 );
 
@@ -146,9 +147,9 @@ ALTER TABLE df_copy OWNER TO postgres;
 
 CREATE TABLE df_entrypoint (
     snap_id bigint NOT NULL,
-    run_params character varying(255),
+    run_params character varying(1024),
     current boolean NOT NULL,
-    arg character varying(255)
+    executable character varying(255)
 );
 
 
@@ -162,7 +163,7 @@ CREATE TABLE df_env (
     env_id bigint NOT NULL,
     current boolean NOT NULL,
     key character varying(255),
-    key_value character varying(255),
+    key_value character varying(1024),
     value character varying(255),
     snap_id bigint
 );
@@ -207,10 +208,10 @@ ALTER TABLE df_from OWNER TO postgres;
 
 CREATE TABLE df_healthcheck (
     snap_id bigint NOT NULL,
-    instruction_params character varying(255) NOT NULL,
+    instruction_params character varying(1024) NOT NULL,
     current boolean NOT NULL,
     instruction character varying(255) NOT NULL,
-    options_params character varying(255) NOT NULL
+    options_params character varying(1024) NOT NULL
 );
 
 
@@ -224,7 +225,7 @@ CREATE TABLE df_label (
     label_id bigint NOT NULL,
     current boolean NOT NULL,
     key character varying(255),
-    key_value character varying(255),
+    key_value character varying(1024),
     value character varying(255),
     snap_id bigint
 );
@@ -239,7 +240,7 @@ ALTER TABLE df_label OWNER TO postgres;
 CREATE TABLE df_maintainer (
     snap_id bigint NOT NULL,
     current boolean NOT NULL,
-    maintainername character varying(255)
+    maintainername character varying(1024)
 );
 
 
@@ -251,7 +252,7 @@ ALTER TABLE df_maintainer OWNER TO postgres;
 
 CREATE TABLE df_onbuild (
     onbuild_id bigint NOT NULL,
-    instruction_params character varying(255) NOT NULL,
+    instruction_params character varying(1024),
     current boolean NOT NULL,
     instruction character varying(255) NOT NULL,
     snap_id bigint
@@ -266,7 +267,7 @@ ALTER TABLE df_onbuild OWNER TO postgres;
 
 CREATE TABLE df_run (
     run_id bigint NOT NULL,
-    run_params character varying(255),
+    run_params character varying(2024),
     current boolean NOT NULL,
     executable character varying(255),
     snap_id bigint
@@ -309,7 +310,7 @@ ALTER TABLE df_user OWNER TO postgres;
 CREATE TABLE df_volume (
     volume_id bigint NOT NULL,
     current boolean NOT NULL,
-    value character varying(255),
+    value character varying(1024),
     snap_id bigint
 );
 
@@ -323,7 +324,7 @@ ALTER TABLE df_volume OWNER TO postgres;
 CREATE TABLE df_workdir (
     workdir_id bigint NOT NULL,
     current boolean NOT NULL,
-    path character varying(255),
+    path character varying(1024),
     snap_id bigint
 );
 
@@ -373,17 +374,9 @@ CREATE TABLE dockerfile (
     docker_path character varying(255) NOT NULL,
     created_at bigint NOT NULL,
     first_docker_commit bigint NOT NULL,
-    fork boolean NOT NULL,
-    i_forks integer NOT NULL,
-    i_network_count integer NOT NULL,
-    i_open_issues integer NOT NULL,
-    i_owner_type character varying(255) NOT NULL,
-    repo_path character varying(255) NOT NULL,
     repo_id bigint NOT NULL,
     i_size integer NOT NULL,
-    i_stargazers integer NOT NULL,
-    i_subscribers integer NOT NULL,
-    i_watchers integer NOT NULL
+    project_project_id bigint
 );
 
 
@@ -395,36 +388,35 @@ ALTER TABLE dockerfile OWNER TO postgres;
 
 CREATE TABLE entrypoints_params (
     entrypoint_id bigint NOT NULL,
-    entrypoints_params character varying(255)
+    entrypoints_params character varying(1024)
 );
 
 
 ALTER TABLE entrypoints_params OWNER TO postgres;
 
 --
--- Name: snapshot; Type: TABLE; Schema: public; Owner: postgres
+-- Name: project; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE snapshot (
-    snap_id bigint NOT NULL,
-    change_type character varying(255),
-    commit_date bigint NOT NULL,
-    commit_index integer NOT NULL,
-    del integer,
-    fromdate bigint NOT NULL,
-    imageisautomated boolean,
-    imageisoffical boolean,
-    ins integer,
-    instructions integer NOT NULL,
-    current boolean NOT NULL,
+CREATE TABLE project (
+    project_id bigint NOT NULL,
+    git_url character varying(1024) NOT NULL,
+    created_at bigint NOT NULL,
+    i_forks integer NOT NULL,
+    giturl character varying(255),
+    i_network_count integer NOT NULL,
+    i_open_issues integer NOT NULL,
+    i_owner_type character varying(255) NOT NULL,
     repo_id bigint NOT NULL,
-    starcount integer,
-    todate bigint NOT NULL,
-    dock_id bigint
+    repo_path character varying(1024) NOT NULL,
+    i_size integer NOT NULL,
+    i_stargazers integer NOT NULL,
+    i_subscribers integer NOT NULL,
+    i_watchers integer NOT NULL
 );
 
 
-ALTER TABLE snapshot OWNER TO postgres;
+ALTER TABLE project OWNER TO postgres;
 
 --
 -- Name: run_params; Type: TABLE; Schema: public; Owner: postgres
@@ -432,57 +424,11 @@ ALTER TABLE snapshot OWNER TO postgres;
 
 CREATE TABLE run_params (
     run_id bigint NOT NULL,
-    run_params character varying(255)
+    run_params character varying(2024)
 );
 
 
 ALTER TABLE run_params OWNER TO postgres;
-
-
---
--- Name: snap_diff; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE snap_diff (
-    snap_id bigint NOT NULL,
-    diff_id bigint NOT NULL
-);
-
-
-ALTER TABLE snap_diff OWNER TO postgres;
-
---
--- Name: repo_diff_type; Type: VIEW; Schema: public; Owner: postgres
---
-
-CREATE VIEW repo_diff_type AS
- SELECT DISTINCT docker.repo_path,
-    dt.diff_type_id
-   FROM ((((dockerfile docker
-     JOIN snapshot s USING (dock_id, repo_id))
-     JOIN snap_diff sd USING (snap_id))
-     JOIN diff d ON ((sd.diff_id = d.diff_id)))
-     JOIN diff_type dt ON ((dt.diff_id = d.diff_id)));
-
-
-ALTER TABLE repo_diff_type OWNER TO postgres;
-
---
--- Name: repo_diff_type2; Type: MATERIALIZED VIEW; Schema: public; Owner: postgres
---
-
-CREATE MATERIALIZED VIEW repo_diff_type2 AS
- SELECT DISTINCT docker.repo_path,
-    dt.diff_type_id
-   FROM ((((dockerfile docker
-     JOIN snapshot s USING (dock_id, repo_id))
-     JOIN snap_diff sd USING (snap_id))
-     JOIN diff d ON ((sd.diff_id = d.diff_id)))
-     JOIN diff_type dt ON ((dt.diff_id = d.diff_id)))
-  WITH NO DATA;
-
-
-ALTER TABLE repo_diff_type2 OWNER TO postgres;
 
 --
 -- Name: sec_add; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -653,6 +599,20 @@ CREATE SEQUENCE sec_onbuild
 ALTER TABLE sec_onbuild OWNER TO postgres;
 
 --
+-- Name: sec_project; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE sec_project
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE sec_project OWNER TO postgres;
+
+--
 -- Name: sec_run; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -723,34 +683,41 @@ CREATE SEQUENCE sec_workdir
 ALTER TABLE sec_workdir OWNER TO postgres;
 
 --
--- Name: tmp_violated_rules; Type: TABLE; Schema: public; Owner: postgres
+-- Name: snap_diff; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE tmp_violated_rules (
-    dock_id bigint,
-    count bigint
+CREATE TABLE snap_diff (
+    snap_id bigint NOT NULL,
+    diff_id bigint NOT NULL
 );
 
 
-ALTER TABLE tmp_violated_rules OWNER TO postgres;
+ALTER TABLE snap_diff OWNER TO postgres;
 
 --
--- Name: tmp_instruction_view; Type: VIEW; Schema: public; Owner: postgres
+-- Name: snapshot; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE VIEW tmp_instruction_view AS
- SELECT s.dock_id,
-    d.repo_path,
-    d.docker_path,
-    s.instructions,
-    t.count
-   FROM ((snapshot s
-     JOIN dockerfile d ON ((d.dock_id = s.dock_id)))
-     JOIN tmp_violated_rules t ON ((s.dock_id = t.dock_id)))
-  WHERE s.current;
+CREATE TABLE snapshot (
+    snap_id bigint NOT NULL,
+    change_type character varying(255),
+    commit_date bigint NOT NULL,
+    del integer,
+    from_date bigint NOT NULL,
+    image_is_automated boolean,
+    image_is_offical boolean,
+    commit_index integer NOT NULL,
+    ins integer,
+    instructions integer NOT NULL,
+    current boolean NOT NULL,
+    repo_id bigint NOT NULL,
+    star_count integer,
+    to_date bigint NOT NULL,
+    dock_id bigint
+);
 
 
-ALTER TABLE tmp_instruction_view OWNER TO postgres;
+ALTER TABLE snapshot OWNER TO postgres;
 
 --
 -- Name: violated_rules; Type: TABLE; Schema: public; Owner: postgres
@@ -941,6 +908,14 @@ ALTER TABLE ONLY dockerfile
 
 
 --
+-- Name: project_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY project
+    ADD CONSTRAINT project_pkey PRIMARY KEY (project_id);
+
+
+--
 -- Name: snapshot_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -962,6 +937,14 @@ ALTER TABLE ONLY df_env
 
 ALTER TABLE ONLY df_comment
     ADD CONSTRAINT fk_9x85wmy92i0nxyp8m50j0neo6 FOREIGN KEY (snap_id) REFERENCES snapshot(snap_id);
+
+
+--
+-- Name: fk_aixhmxvmk7f2x1oui5f39jqbv; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY dockerfile
+    ADD CONSTRAINT fk_aixhmxvmk7f2x1oui5f39jqbv FOREIGN KEY (project_project_id) REFERENCES project(project_id);
 
 
 --
